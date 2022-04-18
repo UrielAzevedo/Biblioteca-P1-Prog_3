@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="807.0" prefWidth="985.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="biblioteca.n1final.GUI.LivroController">
+   <children>
+      <SplitPane dividerPositions="0.4811800610376399" prefHeight="807.0" prefWidth="985.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <ListView fx:id="listaLivros" prefHeight="805.0" prefWidth="470.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="805.0" prefWidth="507.0">
+               <children>
+                  <ButtonBar layoutX="348.0" layoutY="134.0" prefHeight="44.0" prefWidth="80.0" />
+                  <Label layoutX="212.0" layoutY="21.0" prefHeight="38.0" prefWidth="155.0" text="Cadastrar Livro" textAlignment="CENTER" />
+                  <Label layoutX="52.0" layoutY="224.0" text="Genero" />
+                <Button fx:id="btnAdicionar" layoutX="140.0" layoutY="378.0" mnemonicParsing="false" onAction="#btnAdicionarAction" text="Adicionar" />
+                  <TextField fx:id="txtFieldNome" layoutX="133.0" layoutY="126.0" prefHeight="25.0" prefWidth="212.0" />
+                  <Label layoutX="52.0" layoutY="130.0" text="Nome" />
+                  <TextField fx:id="txtFieldEdicao" layoutX="133.0" layoutY="156.0" prefHeight="25.0" prefWidth="212.0" />
+                  <Label layoutX="52.0" layoutY="160.0" text="Edicao" />
+                  <TextField fx:id="txtFieldAno" layoutX="133.0" layoutY="189.0" prefHeight="25.0" prefWidth="212.0" />
+                  <Label layoutX="52.0" layoutY="193.0" text="Ano" />
+                  <Button fx:id="btnExcluir" layoutX="271.0" layoutY="378.0" mnemonicParsing="false" onAction="#btnExcluirAction" text="Excluir" />
+                  <ComboBox fx:id="cboxGenero" layoutX="133.0" layoutY="220.0" prefHeight="17.0" prefWidth="212.0" />
+                  <Label layoutX="40.0" layoutY="290.0" text="Num Copias" />
+                  <TextField fx:id="txtFieldNumCopias" layoutX="132.0" layoutY="286.0" prefHeight="25.0" prefWidth="212.0" />
+                  <Label layoutX="58.0" layoutY="257.0" text="Autor" />
+                  <ComboBox fx:id="cboxAutor" layoutX="132.0" layoutY="253.0" prefHeight="25.0" prefWidth="212.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
