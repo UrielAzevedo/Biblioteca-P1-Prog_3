@@ -1,5 +1,8 @@
 package biblioteca.n1final.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Autor {
     String nome;
     String sobrenome;
@@ -38,4 +41,5 @@ public class Autor {
                 ", id=" + id +
                 '}';
     }
+
 }

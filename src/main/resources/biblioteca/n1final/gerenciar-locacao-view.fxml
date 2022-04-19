@@ -14,10 +14,8 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ListView fx:id="locacaoProdessorListView" layoutX="251.0" layoutY="65.0" prefHeight="740.0" prefWidth="234.0" />
-                  <ListView fx:id="locacaoAlunoListView" layoutY="65.0" prefHeight="740.0" prefWidth="234.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="255.0" AnchorPane.topAnchor="65.0" />
-                  <Label layoutX="66.0" layoutY="28.0" text="Locacao Alunos" />
-                  <Label layoutX="311.0" layoutY="28.0" text="Locacao Professoeres" />
+                  <ListView fx:id="locacoesListView" layoutY="51.0" prefHeight="740.0" prefWidth="489.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0" />
+                  <Label layoutX="220.0" layoutY="20.0" text="Locacoes" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">

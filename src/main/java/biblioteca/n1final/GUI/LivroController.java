@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 import java.net.URL;
+import java.security.spec.RSAOtherPrimeInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -57,6 +58,7 @@ public class LivroController implements Initializable {
 
     @FXML
     private void btnAdicionarAction (ActionEvent e){
+
         Livro livro = new Livro();
         livro.setNome(txtFieldNome.getText());
         livro.setEdicao(txtFieldEdicao.getText());
@@ -64,8 +66,6 @@ public class LivroController implements Initializable {
         livro.setGenero(cboxGenero.getValue());
         livro.setCopias(parseInt(txtFieldNumCopias.getText()));
         livro.adicionarAutor(cboxAutor.getValue());
-
-        System.out.print(livro.toString());
 
         try{
             livroDao.gravar(livro);
@@ -78,21 +78,15 @@ public class LivroController implements Initializable {
     @FXML
     private void btnExcluirAction (ActionEvent e){
 
-//        Livro livro = listaLivros.getSelectionModel().getSelectedItems();
-//
-//        try{
-//            livroDao.excluir(livro);
-//        }catch (Exception exp){
-//            System.out.print(exp);
-//        }
+        Livro livro = listaLivros.getSelectionModel().getSelectedItem();
 
-        listaLivros.getItems().removeAll(listaLivros.getSelectionModel().getSelectedItems());
+        try{
+            livroDao.excluir(livro);
+        }catch (Exception exp){
+            System.out.print(exp);
+        }
 
-//        try{
-//            System.out.print(livroDao.listar());
-//        }catch (Exception exp){
-//            System.out.print(exp);
-//        }
+        atualizarLista();
     }
 
     private void atualizarLista(){

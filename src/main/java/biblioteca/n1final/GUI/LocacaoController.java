@@ -2,11 +2,9 @@ package biblioteca.n1final.GUI;
 
 import biblioteca.n1final.DAO.AlunoDao;
 import biblioteca.n1final.DAO.LivroDao;
+import biblioteca.n1final.DAO.LocacaoDao;
 import biblioteca.n1final.DAO.ProfessoresDao;
-import biblioteca.n1final.model.Aluno;
-import biblioteca.n1final.model.Autor;
-import biblioteca.n1final.model.Livro;
-import biblioteca.n1final.model.Professor;
+import biblioteca.n1final.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,22 +21,76 @@ public class LocacaoController implements Initializable {
     private AlunoDao daoAlunos = new AlunoDao();
     private ProfessoresDao daoProdessores = new ProfessoresDao();
     private LivroDao daoLivros = new LivroDao();
-    private boolean enable;
+    private LocacaoDao daoLocacao = new LocacaoDao();
+    private boolean professorEnable;
 
     @FXML
-    ComboBox cboxProfessor;
+    ComboBox<Professor> cboxProfessor;
 
     @FXML
-    ComboBox cboxAluno;
+    ComboBox<Aluno> cboxAluno;
 
     @FXML
-    ComboBox cboxLivro;
+    ComboBox<Livro> cboxLivro;
 
     @FXML
     Button adicionarBtn;
 
     public void onActionAdicionarBtn () {
 
+        Locacao novaLocacao = new Locacao();
+
+        Livro livro = cboxLivro.getValue();
+        CopiaLivro copiaLocada = livro.copiaDisponivelLocacao();
+        copiaLocada.setLocada(true);
+
+        if(copiaLocada != null){
+            novaLocacao.setCopiaLivro(copiaLocada);
+        }else{
+            System.out.println("livro sem copias para locacao");
+            return;
+        }
+
+        if(professorEnable){
+
+            Professor professor = cboxProfessor.getValue();
+
+            if(professor.getLocacoes().size() >= 5){
+                System.out.println("maximo de locacoes simultaneas atingidas");
+                return;
+            }
+
+            novaLocacao.setProfessor(true);
+            novaLocacao.setIdLocatario(professor.getId());
+            novaLocacao.setPrazo(30);
+
+            try{
+                daoLocacao.gravar(novaLocacao);
+            }catch (Exception e){
+                System.out.println(e);
+            }
+
+        }else{
+            Aluno aluno = cboxAluno.getValue();
+
+            if(aluno.getLocacoes().size() >= 5){
+                System.out.println("maximo de locacoes simultaneas atingidas");
+                return;
+            }
+
+            novaLocacao.setProfessor(false);
+            novaLocacao.setIdLocatario(aluno.getId());
+            novaLocacao.setPrazo(5);
+
+            try{
+                daoLocacao.gravar(novaLocacao);
+            }catch (Exception e){
+                System.out.println(e);
+            }
+
+        }
+
+        atualizar();
     }
 
     @FXML
@@ -49,38 +101,32 @@ public class LocacaoController implements Initializable {
     }
 
     @FXML
-    ListView locacaoAlunoListView;
+    ListView<Locacao> locacoesListView;
 
-    @FXML
-    ListView locacaoProdessorListView;
 
     @FXML
     Toggle toggleProfessor;
 
     public void onActionToggelProfessor(){
 
-        enable = toggleProfessor.isSelected();
+        professorEnable = toggleProfessor.isSelected();
 
-        cboxAluno.setDisable(enable);
-        cboxProfessor.setDisable(!enable);
+        cboxAluno.setDisable(professorEnable);
+        cboxProfessor.setDisable(!professorEnable);
     }
 
     public void atualizar(){
-//        List<Aluno> alunos;
-//        List<Professor> professores;
-//        try{
-//            alunos = daoAlunos.listar();
-//            professores = daoProdessores.listar();
-//        }catch (Exception e){
-//            alunos = new ArrayList<Aluno>();
-//            professores = new ArrayList<Professor>();
-//        }
-//
-//        ObservableList<Aluno> listAlunos = FXCollections.observableArrayList(alunos);
-//        cboxAluno.setItems(listAlunos);
-//
-//        ObservableList<Professor> listProfessores = FXCollections.observableArrayList(professores);
-//        cboxProfessor.setItems(listProfessores);
+
+        List<Locacao> locacoes;
+
+        try{
+            locacoes = daoLocacao.listar();
+        }catch (Exception e){
+            locacoes = new ArrayList<Locacao>();
+        }
+
+        ObservableList<Locacao> locacaosObs = FXCollections.observableArrayList(locacoes);
+        locacoesListView.setItems(locacaosObs);
     }
 
     @Override
@@ -111,4 +157,5 @@ public class LocacaoController implements Initializable {
 
         cboxProfessor.setDisable(true);
     }
+
 }

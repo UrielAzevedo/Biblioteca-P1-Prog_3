@@ -23,7 +23,6 @@ public class CopiaLivrosDao {
 
         if(numCopias >= 2){
             while(counter < numCopias){
-                System.out.print("here");
                 CopiaLivro copiaLivro = new CopiaLivro(livro, false);
                 copias.add(copiaLivro);
                 counter++;

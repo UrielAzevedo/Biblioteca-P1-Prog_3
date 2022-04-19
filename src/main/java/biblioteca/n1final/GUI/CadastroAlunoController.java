@@ -27,10 +27,27 @@ public class CadastroAlunoController implements Initializable {
     private Button adicionarBtn;
 
     @FXML
+    private Button excluirBtn;
+
+    public void onActionExcluirBtn () {
+
+        Aluno aluno = alunosList.getSelectionModel().getSelectedItem();
+
+        try{
+            alunosDao.excluir(aluno);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+        atualizarLista();
+
+    }
+
+    @FXML
     private TextField txtFieldNome;
 
     @FXML
-    private ListView alunosList;
+    private ListView<Aluno> alunosList;
 
     @FXML
     private void onActionAdd (ActionEvent e) {

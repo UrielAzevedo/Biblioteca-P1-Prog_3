@@ -49,11 +49,20 @@ public class CadastroAutorController implements Initializable {
     Button deleteBtn;
 
     public void deleteBtnOnAction() {
-            System.out.print("here");
+
+        Autor autor = autoresListView.getSelectionModel().getSelectedItem();
+
+        try{
+            daoAutores.excluir(autor);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+        atualizarLista();
     }
 
     @FXML
-    ListView autoresListView;
+    ListView<Autor> autoresListView;
 
     public void atualizarLista(){
         List<Autor> autores = null;

@@ -28,10 +28,11 @@ public class CadastroProfessorController implements Initializable {
     Button adicionarBtn;
 
     @FXML
-    ListView professoresListView;
+    ListView<Professor> professoresListView;
 
     @FXML
     public void adicionarBtnOnAction(){
+
         Professor novoProfessor = new Professor();
         novoProfessor.setNome(nomeTxtField.getText());
         try{
@@ -44,6 +45,7 @@ public class CadastroProfessorController implements Initializable {
     }
 
     private void atualizarLista () {
+
         List<Professor> professores = null;
 
         try {
@@ -62,7 +64,16 @@ public class CadastroProfessorController implements Initializable {
 
     @FXML
     public void excluirBtnOnAction () {
-        System.out.print("here");
+
+        Professor professor = professoresListView.getSelectionModel().getSelectedItem();
+
+        try{
+            professoresDao.excluir(professor);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+        atualizarLista();
     }
 
     @Override

@@ -13,9 +13,7 @@ public class Livro{
     private GeneroLivros genero;
     private String edicao;
     private String ano;
-//    private AutoresDao daoAutores = new AutoresDao();
     private List<Autor> autores = new ArrayList();
-//    private List<CopiaLivro> copias = new ArrayList();
     private CopiaLivrosDao daoCopias = new CopiaLivrosDao(this);
 
     Livro(String nome, GeneroLivros genero, String edicao, String ano) {
@@ -90,41 +88,16 @@ public class Livro{
         this.ano = ano;
     }
 
-//    public void setNumCopias (int numCopias){
-//
-//        int counter = 0;
-//
-//        if(numCopias >= 1){
-//
-//            CopiaLivro copiaLivro = new CopiaLivro(this, true);
-//            getCopias().add(copiaLivro);
-//            counter++;
-//
-//            while(counter < numCopias){
-//                copiaLivro = new CopiaLivro(this, false);
-//                counter++;
-//            }
-//
-//            counter = 0;
-//        }else{
-//
-//            CopiaLivro copiaLivro = new CopiaLivro(this, true);
-//            getCopias().add(copiaLivro);
-//
-//        }
-//    }
-//
-//    public void adicionarCopia(){
-//        CopiaLivro novaCopia = new CopiaLivro(this, false);
-//        copias.add(novaCopia);
-//    }
-//
-//    public void removerCopia(){
-//        if(copias.size()-1 > 1){
-//            copias.remove(copias.get(copias.size()-1));
-//        }
-//
-//    }
+    public CopiaLivro copiaDisponivelLocacao () {
+
+        for(CopiaLivro copia : getCopias()){
+            if(!copia.getLocada() && !copia.getCopiaFixa()){
+                return copia;
+            }
+        }
+
+        return null;
+    }
 
     @Override
     public String toString() {
@@ -134,7 +107,7 @@ public class Livro{
                 ", edicao='" + edicao + '\'' +
                 ", ano='" + ano + '\'' +
                 ", autores=" + autores +
-                ", copias=" + daoCopias.listar() +
+                ", Copias=" + daoCopias.listar() +
                 '}';
     }
 }
