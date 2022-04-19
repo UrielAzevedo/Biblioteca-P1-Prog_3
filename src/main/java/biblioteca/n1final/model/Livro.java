@@ -107,7 +107,7 @@ public class Livro{
                 ", edicao='" + edicao + '\'' +
                 ", ano='" + ano + '\'' +
                 ", autores=" + autores +
-                ", Copias=" + daoCopias.listar() +
+                ", Copias=" + daoCopias.listar().size() +
                 '}';
     }
 }

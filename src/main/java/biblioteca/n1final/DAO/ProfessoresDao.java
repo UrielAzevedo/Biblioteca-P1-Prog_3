@@ -23,4 +23,14 @@ public class ProfessoresDao implements DAO<Professor>{
     public void excluir(Professor professor) throws Exception {
         professores.remove(professor);
     }
+
+    public Professor getProfessor(int id){
+
+        for(Professor professor : professores){
+            if(professor.getId() == id){
+                return professor;
+            }
+        }
+        return null;
+    }
 }

@@ -42,53 +42,60 @@ public class LocacaoController implements Initializable {
 
         Livro livro = cboxLivro.getValue();
         CopiaLivro copiaLocada = livro.copiaDisponivelLocacao();
-        copiaLocada.setLocada(true);
 
         if(copiaLocada != null){
-            novaLocacao.setCopiaLivro(copiaLocada);
+
+            if(professorEnable){
+
+                Professor professor = cboxProfessor.getValue();
+
+                if(professor.getLocacoes().size() >= 5){
+                    System.out.println("maximo de locacoes simultaneas atingidas");
+                    return;
+                }
+
+                copiaLocada.setLocada(true);
+
+                novaLocacao.setCopiaLivro(copiaLocada);
+                novaLocacao.setProfessor(true);
+                novaLocacao.setIdLocatario(professor.getId());
+                novaLocacao.setPrazo(30);
+
+                try{
+                    daoLocacao.gravar(novaLocacao);
+                    professor.adicionarLocacao(novaLocacao);
+                }catch (Exception e){
+                    System.out.println(e);
+                }
+
+            }else{
+                Aluno aluno = cboxAluno.getValue();
+
+                if(aluno.getLocacoes().size() >= 5){
+                    System.out.println("maximo de locacoes simultaneas atingidas");
+                    return;
+                }
+
+                copiaLocada.setLocada(true);
+
+                novaLocacao.setCopiaLivro(copiaLocada);
+                novaLocacao.setProfessor(false);
+                novaLocacao.setIdLocatario(aluno.getId());
+                novaLocacao.setPrazo(5);
+
+                try{
+                    daoLocacao.gravar(novaLocacao);
+                    aluno.adicionarLocacao(novaLocacao);
+                }catch (Exception e){
+                    System.out.println(e);
+                }
+
+            }
         }else{
             System.out.println("livro sem copias para locacao");
             return;
         }
 
-        if(professorEnable){
-
-            Professor professor = cboxProfessor.getValue();
-
-            if(professor.getLocacoes().size() >= 5){
-                System.out.println("maximo de locacoes simultaneas atingidas");
-                return;
-            }
-
-            novaLocacao.setProfessor(true);
-            novaLocacao.setIdLocatario(professor.getId());
-            novaLocacao.setPrazo(30);
-
-            try{
-                daoLocacao.gravar(novaLocacao);
-            }catch (Exception e){
-                System.out.println(e);
-            }
-
-        }else{
-            Aluno aluno = cboxAluno.getValue();
-
-            if(aluno.getLocacoes().size() >= 5){
-                System.out.println("maximo de locacoes simultaneas atingidas");
-                return;
-            }
-
-            novaLocacao.setProfessor(false);
-            novaLocacao.setIdLocatario(aluno.getId());
-            novaLocacao.setPrazo(5);
-
-            try{
-                daoLocacao.gravar(novaLocacao);
-            }catch (Exception e){
-                System.out.println(e);
-            }
-
-        }
 
         atualizar();
     }
@@ -98,6 +105,44 @@ public class LocacaoController implements Initializable {
 
     public void onActionExcluirBtn () {
 
+        Locacao locacaoRemovida = locacoesListView.getSelectionModel().getSelectedItem();
+        Livro livro = cboxLivro.getSelectionModel().getSelectedItem();
+        CopiaLivro copiaLivro = locacaoRemovida.getCopiaLivro();
+
+        if(locacaoRemovida.isProfessor()){
+
+            Professor professor = daoProdessores.getProfessor(locacaoRemovida.getIdLocatario());
+
+            if(professor != null) {
+
+                try{
+                   professor.removerLocacao(locacaoRemovida);
+                   copiaLivro.setLocada(false);
+                   daoLocacao.excluir(locacaoRemovida);
+
+                }catch (Exception e){
+                    System.out.println(e);
+                }
+            }
+            
+        } else {
+
+            Aluno aluno = daoAlunos.getAluno(locacaoRemovida.getIdLocatario());
+
+            if(aluno != null){
+
+                try{
+                    aluno.removerLocacao(locacaoRemovida);
+                    copiaLivro.setLocada(false);
+                    daoLocacao.excluir(locacaoRemovida);
+                }catch (Exception e){
+                    System.out.println(e);
+                }
+            }
+
+        }
+
+        atualizar();
     }
 
     @FXML
